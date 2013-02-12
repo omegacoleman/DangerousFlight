@@ -24,9 +24,7 @@
 
 #include <stdio.h>
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include "alphachannel.h"
-#include "spec.h"
+#include "sprite.h"
 
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
@@ -37,31 +35,18 @@ int quited = 0;
 
 int main(int argc, char **argv)
 {
+    SuperBlitable *plane;
+    
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     atexit(SDL_Quit);
     SDL_SetEventFilter(process_events);
     SDL_Surface *screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
-    
-    
-    SDL_Surface *s_bg, *s_normal, *s_alpha, *s_spec, *s_n_spec, *s_z;
-    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-    s_bg = SDL_DisplayFormatAlpha(IMG_Load("res/tmp-bg.png"));
-    s_normal = SDL_DisplayFormatAlpha(IMG_Load("res/ca_r.jpg"));
-    s_alpha = SDL_DisplayFormat(IMG_Load("res/ca_r_alph.jpg"));
-    s_spec = SDL_DisplayFormat(IMG_Load("res/ca_r_spec.jpg"));
-    s_z = SDL_DisplayFormat(IMG_Load("res/ca_r_z.jpg"));
-    IMG_Quit();
-    
-    s_n_spec = SDL_ConvertSurface(s_spec, s_spec->format, 0);
-    change_style(s_n_spec, SDL_MapRGB(s_n_spec->format, 0, 0, 255));
-    change_spec(s_normal, s_n_spec);
+    load_models();
+    plane = get_model("ca_w");
     int frame = 0;
     while (! quited) {
         SDL_PollEvent(NULL);
-        SDL_BlitSurface(s_bg, NULL, screen, NULL);
-        set_alpha_channel(s_normal, s_alpha);
-        // z_cut(s_normal, s_z, frame, 10);
-        SDL_BlitSurface(s_normal, NULL, screen, NULL);
+        super_blit(plane, screen, VIEWPORT_WIDTH / 2, VIEWPORT_HEIGHT / 2, 255, 0 , 0, 255);
         SDL_Flip(screen);
         SDL_Delay(20);
         frame++;
