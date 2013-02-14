@@ -1,5 +1,7 @@
 
 #include "sprite.h"
+#include "bottom.h"
+#include "environment.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <string.h>
@@ -16,8 +18,6 @@ char model_basenames[MODEL_NR][255] =
 #define EXT_ALPH "_alph.jpg"
 #define EXT_SPEC "_spec.jpg"
 #define EXT_Z "_z.jpg"
-
-#define RES_DIR "res/"
 
 SuperBlitable models[MODEL_NR];
 
@@ -64,19 +64,21 @@ SuperBlitable* get_model(char *name)
     }
 }
 
-void super_blit(SuperBlitable *superb, SDL_Surface *dest, \
-int x, int y, Uint8 spec_r, Uint8 spec_g, Uint8 spec_b, Uint8 fog)
+void super_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y)
 {
+    Uint32 curr_spec = get_spec();
+    Uint8 sr, sg, sb;
+    SDL_GetRGB(curr_spec, get_spec_fmt(), &sr, &sg, &sb);
     SDL_FreeSurface(superb->curr);
     superb->curr = SDL_DisplayFormatAlpha(superb->orig);
     SDL_Surface *s_n_spec = 
     SDL_ConvertSurface(superb->spec, superb->spec->format, 0);
-    change_style(s_n_spec, SDL_MapRGB(s_n_spec->format, spec_r, spec_g, spec_b));
+    change_style(s_n_spec, SDL_MapRGB(s_n_spec->format, sr, sg, sb));
     change_spec(superb->curr, s_n_spec);
     set_alpha_channel(superb->curr, superb->alph);
-    if(fog < 255)
+    if(get_fog() < 255)
     {
-        z_cut(superb->curr, superb->z, fog, 20);
+        z_cut(superb->curr, superb->z, get_fog(), 20);
     }
     SDL_Rect thisrect;
     thisrect.x = x - (superb->curr->w / 2);

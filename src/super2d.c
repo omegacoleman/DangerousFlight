@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 #include "sprite.h"
+#include "environment.h"
 
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
@@ -42,11 +43,14 @@ int main(int argc, char **argv)
     SDL_SetEventFilter(process_events);
     SDL_Surface *screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
     load_models();
-    plane = get_model("ca_w");
-    int frame = 0;
+    load_environment("env_sea");
+    plane = get_model("ca_r");
+    unsigned long frame = 0;
     while (! quited) {
         SDL_PollEvent(NULL);
-        super_blit(plane, screen, VIEWPORT_WIDTH / 2, VIEWPORT_HEIGHT / 2, 255, 0 , 0, 255);
+        blit_bg(screen);
+        super_blit(plane, screen, VIEWPORT_WIDTH / 2, VIEWPORT_HEIGHT / 2);
+        env_move_on();
         SDL_Flip(screen);
         SDL_Delay(20);
         frame++;
