@@ -26,30 +26,53 @@
 #include <SDL/SDL.h>
 #include "sprite.h"
 #include "environment.h"
+#include "gear.h"
 
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
 
 int process_events(const SDL_Event *event);
 int quited = 0;
+GearObject gear;
+
 
 
 int main(int argc, char **argv)
 {
     SuperBlitable *plane;
+    gear.weight = 3;
+    gear.x = 200;
+    gear.y = 200;
+    gear.x_vector = 0;
+    gear.y_vector = 0;
     
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     atexit(SDL_Quit);
     SDL_SetEventFilter(process_events);
     SDL_Surface *screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
     load_models();
+    set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
     plane = get_model("ca_r");
     unsigned long frame = 0;
     while (! quited) {
         SDL_PollEvent(NULL);
         blit_bg(screen);
-        super_blit(plane, screen, VIEWPORT_WIDTH / 2, VIEWPORT_HEIGHT / 2);
+        super_blit(plane, screen, gear.x, gear.y);
+        Uint8 *keys = SDL_GetKeyState(NULL);
+        if (keys[SDLK_UP] == SDL_PRESSED)
+        {
+            give_push(&gear, 0, -5);
+        }
+        if (keys[SDLK_LEFT] == SDL_PRESSED)
+        {
+            give_push(&gear, -3, 0);
+        }
+        if (keys[SDLK_RIGHT] == SDL_PRESSED)
+        {
+            give_push(&gear, 3, 0);
+        }
+        step_gear(&gear);
         env_move_on();
         SDL_Flip(screen);
         SDL_Delay(20);

@@ -35,7 +35,7 @@ void blit_bg(SDL_Surface *dest)
 
 void env_move_on()
 {
-    curr_spec_pix += random() % 5;
+    curr_spec_pix += rand() % 5;
     curr_fog_pix += 1;
     curr_spec_pix %= curr_environment.optlines->w * 2;
     curr_fog_pix %= curr_environment.optlines->w * 2;
