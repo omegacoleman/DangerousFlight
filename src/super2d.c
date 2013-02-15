@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     load_models();
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
-    plane = get_model("ca_r");
+    plane = get_model("missle");
     unsigned long frame = 0;
     while (! quited) {
         SDL_PollEvent(NULL);
