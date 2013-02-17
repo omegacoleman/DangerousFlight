@@ -1,5 +1,6 @@
 
 #include <gear.h>
+#include <math.h>
 
 int top_wall, bottom_wall, left_wall, right_wall;
 
@@ -35,6 +36,8 @@ void step_gear(GearObject *gear)
     {
         gear->y = bottom_wall;
         gear->y_vector = -abs(gear->y_vector);
+    } else {
+        gear->angle += (get_target_angle(gear) - gear->angle) / 2;
     }
 }
 
@@ -46,4 +49,28 @@ void set_walls(int top, int bottom, int left, int right)
     right_wall = right;
 }
 
+int get_target_angle(GearObject *gear)
+{
+    if(gear->y_vector == 0){
+        return 0;
+    }
+    if(gear->x_vector == 0){
+        if(gear->y_vector > 0){
+            return -90;
+        } else {
+            return 90;
+        }
+    }
+    double ver = abs(gear->x_vector);
+    double hor = abs(gear->y_vector);
+    int angle = (int)(atan(hor / ver) / M_PI * 180);
+    if(gear->x_vector < 0){
+        angle = -angle;
+    }
+    if(gear->y_vector > 0){
+        return -angle;
+    } else {
+        return angle;
+    }
+}
 

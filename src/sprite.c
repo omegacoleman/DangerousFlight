@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "bottom.h"
 #include "environment.h"
+#include "SDL_rotozoom.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <string.h>
@@ -65,7 +66,8 @@ SuperBlitable* get_model(char *name)
     }
 }
 
-void super_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y)
+void super_blit(SuperBlitable *superb, SDL_Surface *dest, 
+int x, int y, int angle)
 {
     Uint32 curr_spec = get_spec();
     Uint8 sr, sg, sb;
@@ -81,6 +83,7 @@ void super_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y)
     {
         z_cut(superb->curr, superb->z, get_fog(), 20);
     }
+    superb->curr = rotozoomSurface(superb->curr, angle, 1, 0);
     SDL_Rect thisrect;
     thisrect.x = x - (superb->curr->w / 2);
     thisrect.y = y - (superb->curr->h / 2);

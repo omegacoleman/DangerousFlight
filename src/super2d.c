@@ -44,7 +44,8 @@ int main(int argc, char **argv)
     gear.x = 200;
     gear.y = 200;
     gear.x_vector = 0;
-    gear.y_vector = 0;
+    gear.y_vector = -10;
+    gear.angle = 0;
     
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     atexit(SDL_Quit);
@@ -53,12 +54,12 @@ int main(int argc, char **argv)
     load_models();
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
-    plane = get_model("missle");
+    plane = get_model("ca_r");
     unsigned long frame = 0;
     while (! quited) {
         SDL_PollEvent(NULL);
         blit_bg(screen);
-        super_blit(plane, screen, gear.x, gear.y);
+        super_blit(plane, screen, gear.x, gear.y, gear.angle);
         Uint8 *keys = SDL_GetKeyState(NULL);
         if (keys[SDLK_UP] == SDL_PRESSED)
         {

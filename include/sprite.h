@@ -15,7 +15,8 @@ typedef struct
 
 void load_models();
 SuperBlitable* get_model(char *name);
-void super_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y);
+void super_blit(SuperBlitable *superb, SDL_Surface *dest, 
+int x, int y, int angle);
 
 #endif
 

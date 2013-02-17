@@ -11,6 +11,7 @@ typedef struct
     int y_vector;
     int x;
     int y;
+    int angle;
 }GearObject;
 
 
