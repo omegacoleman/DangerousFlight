@@ -1,6 +1,8 @@
 
-#include <gear.h>
+#include "gear.h"
 #include <math.h>
+
+#define ROTATE_SPEED_MAX 3
 
 int top_wall, bottom_wall, left_wall, right_wall;
 
@@ -37,7 +39,17 @@ void step_gear(GearObject *gear)
         gear->y = bottom_wall;
         gear->y_vector = -abs(gear->y_vector);
     } else {
-        gear->angle += (get_target_angle(gear) - gear->angle) / 2;
+        int target_angle = get_target_angle(gear);
+        if(-ROTATE_SPEED_MAX < (target_angle - gear->angle) < ROTATE_SPEED_MAX)
+        {
+            gear->angle = target_angle;
+        } else {
+            if (target_angle > gear->angle){
+                gear->angle += ROTATE_SPEED_MAX;
+            } else {
+                gear->angle -= ROTATE_SPEED_MAX;
+            }
+        }
     }
 }
 

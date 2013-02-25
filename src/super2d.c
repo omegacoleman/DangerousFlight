@@ -1,5 +1,4 @@
 /*
- * 未命名.c
  * 
  * Copyright 2013 Stephen Coleman <omegacoleman@gmail.com>
  * 
@@ -27,6 +26,7 @@
 #include "sprite.h"
 #include "environment.h"
 #include "gear.h"
+#include "missle.h"
 
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
@@ -48,18 +48,23 @@ int main(int argc, char **argv)
     gear.angle = 0;
     
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+    srand((unsigned)time(NULL));
     atexit(SDL_Quit);
     SDL_SetEventFilter(process_events);
     SDL_Surface *screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
     load_models();
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
+    missle_init();
+    Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
     plane = get_model("ca_r");
     unsigned long frame = 0;
+    int win = -1;
     while (! quited) {
         SDL_PollEvent(NULL);
         blit_bg(screen);
         super_blit(plane, screen, gear.x, gear.y, gear.angle);
+        blit_missle(missle, screen);
         Uint8 *keys = SDL_GetKeyState(NULL);
         if (keys[SDLK_UP] == SDL_PRESSED)
         {
@@ -74,10 +79,16 @@ int main(int argc, char **argv)
             give_push(&gear, 3, 0);
         }
         step_gear(&gear);
+        if (step_missle(missle) != 1)
+        {
+            Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+        }
         env_move_on();
         SDL_Flip(screen);
         SDL_Delay(20);
         frame++;
+    }
+    if (win == 0) {
     }
 	return 0;
 }

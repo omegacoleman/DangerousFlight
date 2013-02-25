@@ -7,13 +7,14 @@
 #include <SDL/SDL_image.h>
 #include <string.h>
 
-#define MODEL_NR 3
+#define MODEL_NR 4
 
 char model_basenames[MODEL_NR][255] = 
 {
     "ca_w", 
     "ca_r", 
     "missle", 
+    "explode", 
 };
 
 #define EXT_ORIG ".jpg"
