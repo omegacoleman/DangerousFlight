@@ -27,6 +27,7 @@
 #include "environment.h"
 #include "gear.h"
 #include "missle.h"
+#include "explode.h"
 
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
@@ -53,6 +54,7 @@ int main(int argc, char **argv)
     SDL_SetEventFilter(process_events);
     SDL_Surface *screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
     load_models();
+    explode_init();
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
     missle_init();
@@ -65,6 +67,7 @@ int main(int argc, char **argv)
         blit_bg(screen);
         super_blit(plane, screen, gear.x, gear.y, gear.angle);
         blit_missle(missle, screen);
+        blit_explode(screen);
         Uint8 *keys = SDL_GetKeyState(NULL);
         if (keys[SDLK_UP] == SDL_PRESSED)
         {

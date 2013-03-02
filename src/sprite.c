@@ -7,20 +7,31 @@
 #include <SDL/SDL_image.h>
 #include <string.h>
 
-#define MODEL_NR 4
+#define MODEL_NR 13
 
 char model_basenames[MODEL_NR][255] = 
 {
     "ca_w", 
     "ca_r", 
     "missle", 
-    "explode", 
+    "explode_1", 
+    "explode_2", 
+    "explode_3", 
+    "explode_4", 
+    "explode_5", 
+    "explode_6", 
+    "explode_7", 
+    "explode_8", 
+    "explode_9", 
+    "explode_10", 
 };
 
 #define EXT_ORIG ".jpg"
 #define EXT_ALPH "_alph.jpg"
 #define EXT_SPEC "_spec.jpg"
 #define EXT_Z "_z.jpg"
+
+#define DEF_BLUR 20
 
 SuperBlitable models[MODEL_NR];
 
@@ -80,9 +91,9 @@ int x, int y, int angle)
     change_style(s_n_spec, SDL_MapRGB(s_n_spec->format, sr, sg, sb));
     change_spec(superb->curr, s_n_spec);
     set_alpha_channel(superb->curr, superb->alph);
-    if(get_fog() < 255)
+    if(get_fog() < 0xff)
     {
-        z_cut(superb->curr, superb->z, get_fog(), 20);
+        z_cut(superb->curr, superb->z, get_fog(), DEF_BLUR);
     }
     superb->curr = rotozoomSurface(superb->curr, angle, 1, 0);
     SDL_Rect thisrect;

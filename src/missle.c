@@ -1,15 +1,17 @@
 
 #include "missle.h"
+#include "explode.h"
 
 
-#define EXPLODE_TICK_MAX 50
-#define EXPLODE_TICK_MIN 40
+#define EXPLODE_TICK_MAX 30
+#define EXPLODE_TICK_MIN 20
 #define EXPLODE_TICK_GAP (EXPLODE_TICK_MAX - EXPLODE_TICK_MIN)
 
 #define MISSLE_PUSH_X_MAX -30
 #define MISSLE_PUSH_X_MIN -70
 #define MISSLE_PUSH_Y_MAX 7
 #define MISSLE_PUSH_Y_MIN -7
+#define MISSLE_WEIGHT 2
 
 #define MISSLE_PUSH_X_GAP (MISSLE_PUSH_X_MAX - MISSLE_PUSH_X_MIN)
 #define MISSLE_PUSH_Y_GAP (MISSLE_PUSH_Y_MAX - MISSLE_PUSH_Y_MIN)
@@ -31,7 +33,7 @@ Missle *gen_missle(int x, int y)
     curr->gear.x_vector = 0;
     curr->gear.y_vector = 0;
     curr->gear.angle = 0;
-    curr->gear.weight = 3;
+    curr->gear.weight = MISSLE_WEIGHT;
     int x_push = MISSLE_PUSH_X_MIN + (rand() % MISSLE_PUSH_X_GAP);
     int y_push = MISSLE_PUSH_Y_MIN + (rand() % MISSLE_PUSH_Y_GAP);
     give_push(&(curr->gear), x_push, y_push);
@@ -42,6 +44,7 @@ int step_missle(Missle *missle)
     missle->explode_tick_left -= 1;
     if (missle->explode_tick_left <= 0)
     {
+        explosive_at(missle->gear.x, missle->gear.y);
         free(missle);
         return 0;
     }
