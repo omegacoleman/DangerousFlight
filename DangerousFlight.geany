@@ -24,28 +24,8 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=20
-FILE_NAME_0=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Falphachannel.c;0;4
-FILE_NAME_1=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fbottom.c;0;4
-FILE_NAME_2=101;CMake;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2FCMakeLists.txt;0;4
-FILE_NAME_3=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fenvironment.c;0;4
-FILE_NAME_4=993;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fgear.c;0;4
-FILE_NAME_5=487;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2FSDL_rotozoom.c;0;4
-FILE_NAME_6=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fspec.c;0;4
-FILE_NAME_7=262;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fsprite.c;0;4
-FILE_NAME_8=1707;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fsuper2d.c;0;4
-FILE_NAME_9=43;Markdown;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2FREADME.md;0;4
-FILE_NAME_10=507;Sh;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fres%2Fbuild_res.sh;0;4
-FILE_NAME_11=49;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fmissle.c;0;4
-FILE_NAME_12=234;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2Fmissle.h;0;4
-FILE_NAME_13=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2Falphachannel.h;0;4
-FILE_NAME_14=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2Fbottom.h;0;4
-FILE_NAME_15=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2Fenvironment.h;0;4
-FILE_NAME_16=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2Fgear.h;0;4
-FILE_NAME_17=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2FSDL_rotozoom.h;0;4
-FILE_NAME_18=0;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2Fspec.h;0;4
-FILE_NAME_19=190;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Finclude%2Fsprite.h;0;4
-FILE_NAME_20=204;C;0;16;0;1;0;%2Fhome%2Fcoleman%2FDocuments%2FDangerousFlight%2Fsrc%2Fexplode.c;0;4
+current_page=0
+FILE_NAME_0=19;Sh;0;16;0;1;0;D%3A%5CDangerousFlight%5Cres%5Cbuild_res.sh;0;4
 
 [VTE]
 last_dir=/home/coleman
