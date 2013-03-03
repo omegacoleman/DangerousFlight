@@ -24,8 +24,7 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=19;Sh;0;16;0;1;0;D%3A%5CDangerousFlight%5Cres%5Cbuild_res.sh;0;4
+current_page=-1
 
 [VTE]
 last_dir=/home/coleman

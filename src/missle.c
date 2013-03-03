@@ -28,12 +28,7 @@ Missle *gen_missle(int x, int y)
     Missle *curr = malloc(sizeof(Missle));
     curr->explode_tick_left = \
     EXPLODE_TICK_MIN + (rand() % EXPLODE_TICK_GAP);
-    curr->gear.x = x;
-    curr->gear.y = y;
-    curr->gear.x_vector = 0;
-    curr->gear.y_vector = 0;
-    curr->gear.angle = 0;
-    curr->gear.weight = MISSLE_WEIGHT;
+    init_gear(&(curr->gear), x, y, MISSLE_WEIGHT);
     int x_push = MISSLE_PUSH_X_MIN + (rand() % MISSLE_PUSH_X_GAP);
     int y_push = MISSLE_PUSH_Y_MIN + (rand() % MISSLE_PUSH_Y_GAP);
     give_push(&(curr->gear), x_push, y_push);

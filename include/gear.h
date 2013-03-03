@@ -15,6 +15,7 @@ typedef struct
 }GearObject;
 
 
+void init_gear(GearObject *gear, int x, int y, int weight);
 void give_push(GearObject *gear, int x_push, int y_push);
 void step_gear(GearObject *gear);
 void set_walls(int top, int bottom, int left, int right);

@@ -24,8 +24,8 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 #include "sprite.h"
+#include "player.h"
 #include "environment.h"
-#include "gear.h"
 #include "missle.h"
 #include "explode.h"
 
@@ -40,14 +40,6 @@ GearObject gear;
 
 int main(int argc, char **argv)
 {
-    SuperBlitable *plane;
-    gear.weight = 3;
-    gear.x = 200;
-    gear.y = 200;
-    gear.x_vector = 0;
-    gear.y_vector = -10;
-    gear.angle = 0;
-    
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     srand((unsigned)time(NULL));
     atexit(SDL_Quit);
@@ -58,30 +50,18 @@ int main(int argc, char **argv)
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
     missle_init();
+    Player *player = create_player(get_model("ca_r"), 200, 200, 3, 300);
     Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
-    plane = get_model("ca_r");
     unsigned long frame = 0;
     int win = -1;
     while (! quited) {
         SDL_PollEvent(NULL);
         blit_bg(screen);
-        super_blit(plane, screen, gear.x, gear.y, gear.angle);
         blit_missle(missle, screen);
+        blit_player(player, screen);
         blit_explode(screen);
-        Uint8 *keys = SDL_GetKeyState(NULL);
-        if (keys[SDLK_UP] == SDL_PRESSED)
-        {
-            give_push(&gear, 0, -5);
-        }
-        if (keys[SDLK_LEFT] == SDL_PRESSED)
-        {
-            give_push(&gear, -3, 0);
-        }
-        if (keys[SDLK_RIGHT] == SDL_PRESSED)
-        {
-            give_push(&gear, 3, 0);
-        }
-        step_gear(&gear);
+        kb_control(player, SDL_GetKeyState(NULL));
+        step_player(player);
         if (step_missle(missle) != 1)
         {
             Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);

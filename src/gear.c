@@ -6,6 +6,16 @@
 
 int top_wall, bottom_wall, left_wall, right_wall;
 
+void init_gear(GearObject *gear, int x, int y, int weight)
+{
+    gear->x = x;
+    gear->y = y;
+    gear->weight = weight;
+    gear->x_vector = 0;
+    gear->y_vector = 0;
+    gear->angle = 0;
+}
+
 void give_push(GearObject *gear, int x_push, int y_push)
 {
     gear->x_vector += x_push;
