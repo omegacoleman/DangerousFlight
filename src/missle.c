@@ -39,7 +39,7 @@ int step_missle(Missle *missle)
     missle->explode_tick_left -= 1;
     if (missle->explode_tick_left <= 0)
     {
-        explosive_at(missle->gear.x, missle->gear.y);
+        fire_at(missle->gear.x, missle->gear.y);
         free(missle);
         return 0;
     }

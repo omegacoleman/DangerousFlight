@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
     missle_init();
-    Player *player = create_player(get_model("ca_r"), 200, 200, 3, 300);
+    Player *player = create_player(get_model("ca_r"), 200, 200, 3, 1000);
     Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
     unsigned long frame = 0;
     int win = -1;

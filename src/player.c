@@ -19,17 +19,34 @@ Player *create_player(SuperBlitable *model, int x, int y, int weight, int max_he
 
 void step_player(Player *player)
 {
-    step_gear(&(player->gear));
-    if (player->health > player->max_health)
+    if (player->health > 0)
     {
-        player->health = player->max_health;
+        step_gear(&(player->gear));
+        int exploded = hit_test(player->gear.x, player->gear.y);
+        printf("%d\n", exploded);
+        player->health -= exploded;
+        if (exploded)
+        {
+            explosive_at(player->gear.x, player->gear.y);
+        }
+        if (player->health > player->max_health)
+        {
+            player->health = player->max_health;
+        }
+        if (player->health < 0)
+        {
+            player->health = 0;
+        }
     }
 }
 
 void blit_player(Player *player, SDL_Surface *target)
 {
-    super_blit(player->model, target, 
-    player->gear.x, player->gear.y, player->gear.angle);
+    if (player->health > 0)
+    {
+        super_blit(player->model, target, 
+        player->gear.x, player->gear.y, player->gear.angle);
+    }
 }
 
 void kb_control(Player *player, Uint8 *keys)
