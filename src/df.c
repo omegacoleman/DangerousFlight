@@ -65,6 +65,7 @@ int main(int argc, char **argv)
         if (step_missle(missle) != 1)
         {
             Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+            lock_gear(missle, &(player->gear));
         }
         env_move_on();
         SDL_Flip(screen);

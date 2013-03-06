@@ -8,26 +8,39 @@
 #define GO_RIGHT 3
 #define GO_UP -5
 
+#define PARRY_TIME 5
+
 Player *create_player(SuperBlitable *model, int x, int y, int weight, int max_health)
 {
     Player *player = malloc(sizeof(Player));
     player->model = model;
     init_gear(&(player->gear), x, y, weight);
     player->health = player->max_health = max_health;
+    player->damage_tick_left = 0;
     return player;
 }
 
 void step_player(Player *player)
 {
+    if (player->damage_tick_left > 0)
+    {
+        if(rand() > 0.7)
+        {
+            explosive_at(player->gear.x, player->gear.y);
+            player->damage_tick_left -= 1;
+        }
+    }
     if (player->health > 0)
     {
         step_gear(&(player->gear));
-        int exploded = hit_test(player->gear.x, player->gear.y);
-        printf("%d\n", exploded);
-        player->health -= exploded;
-        if (exploded)
+        if (player->damage_tick_left == 0)
         {
-            explosive_at(player->gear.x, player->gear.y);
+            int exploded = hit_test(player->gear.x, player->gear.y);
+            player->health -= exploded;
+            if (exploded)
+            {
+                player->damage_tick_left = PARRY_TIME;
+            }
         }
         if (player->health > player->max_health)
         {

@@ -12,6 +12,7 @@ typedef struct
     GearObject gear;
     int health;
     int max_health;
+    int damage_tick_left;
 } Player;
 
 Player *create_player(SuperBlitable *model, int x, int y, int weight, int max_health);

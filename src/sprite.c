@@ -105,3 +105,16 @@ int x, int y, int angle)
     SDL_FreeSurface(s_n_spec);
 }
 
+void fast_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y)
+{
+    SDL_FreeSurface(superb->curr);
+    superb->curr = SDL_DisplayFormatAlpha(superb->orig);
+    set_alpha_channel(superb->curr, superb->alph);
+    SDL_Rect thisrect;
+    thisrect.x = x - (superb->curr->w / 2);
+    thisrect.y = y - (superb->curr->h / 2);
+    thisrect.w = superb->curr->w;
+    thisrect.h = superb->curr->h;
+    SDL_BlitSurface(superb->curr, NULL, dest, &thisrect);
+}
+

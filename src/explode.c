@@ -71,8 +71,8 @@ void blit_explode(SDL_Surface *target)
         if(curr_explode->tick_left > EX_TICK_UNUSED){
             curr_explode->tick_left -= 1;
             int current_frame_nr = rand() % EX_FRAME_NR;
-            super_blit(explode_frames[current_frame_nr], target, 
-            curr_explode->x, curr_explode->y, 0);
+            fast_blit(explode_frames[current_frame_nr], target, 
+            curr_explode->x, curr_explode->y);
         }
     }
 }
