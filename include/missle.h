@@ -2,9 +2,9 @@
 #ifndef _MISSLE_H_
 #define _MISSLE_H_
 
+#include "SDL.h"
 #include "gear.h"
 #include "sprite.h"
-#include <SDL/SDL.h>
 
 #define MT_NONE 0
 #define MT_STATIC 5

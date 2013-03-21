@@ -1,5 +1,5 @@
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 #include "spec.h"
 #include "bottom.h"
 

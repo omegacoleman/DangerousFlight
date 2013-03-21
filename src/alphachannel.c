@@ -1,6 +1,6 @@
 
 #include "alphachannel.h"
-#include <SDL/SDL.h>
+#include "SDL.h"
 #include "bottom.h"
 
 void z_cut(SDL_Surface *src, SDL_Surface *s_z, Uint8 tocut, Uint8 blur)

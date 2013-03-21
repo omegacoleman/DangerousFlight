@@ -1,6 +1,6 @@
 
 #include "bottom.h"
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 void set_pixel_alpha(SDL_Surface *surface, int x, int y, Uint8 alpha)
 {

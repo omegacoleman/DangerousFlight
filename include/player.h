@@ -2,9 +2,9 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+#include "SDL.h"
 #include "gear.h"
 #include "sprite.h"
-#include <SDL/SDL.h>
 
 typedef struct
 {

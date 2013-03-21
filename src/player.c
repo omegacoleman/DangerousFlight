@@ -2,7 +2,7 @@
 #include "gear.h"
 #include "sprite.h"
 #include "player.h"
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #define GO_LEFT -3
 #define GO_RIGHT 3
@@ -24,15 +24,14 @@ void step_player(Player *player)
 {
     if (player->damage_tick_left > 0)
     {
-        if(rand() > 0.7)
+        player->damage_tick_left -= 1;
+        if(rand() > 0.89)
         {
             explosive_at(player->gear.x, player->gear.y);
-            player->damage_tick_left -= 1;
         }
     }
     if (player->health > 0)
     {
-        step_gear(&(player->gear));
         if (player->damage_tick_left == 0)
         {
             int exploded = hit_test(player->gear.x, player->gear.y);
@@ -42,6 +41,7 @@ void step_player(Player *player)
                 player->damage_tick_left = PARRY_TIME;
             }
         }
+        step_gear(&(player->gear));
         if (player->health > player->max_health)
         {
             player->health = player->max_health;

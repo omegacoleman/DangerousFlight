@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "environment.h"
 #include "bottom.h"
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include "SDL.h"
+#include "SDL_image.h"
 
 #define EXT_BG ".jpg"
 #define EXT_OPT "_ops.bmp"

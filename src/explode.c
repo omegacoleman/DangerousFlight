@@ -1,23 +1,23 @@
 
 #include <stdlib.h>
+#include "SDL_image.h"
 #include "explode.h"
 #include "math.h"
 #include "sprite.h"
 
 
-#define ABS(a) ((a>0?a:-a))
-
 #define EX_TICK_FULL 10
 #define EX_TICK_UNUSED -1
 #define EX_NR_MAX 32
-#define EX_FRAME_NR 10
-#define EX_MODEL_NAME "explode_%d"
-#define EX_R 250
+#define EX_FRAME_NR 3
+#define EX_MODEL_NAME "res/explode_%d.png"
+#define EX_R 150
 #define EX_TYPE_FIRE 2
 #define EX_TYPE_ANIM 1
+#define EX_FIREAMOUNT 5
 
 Explode explodes[EX_NR_MAX];
-SuperBlitable *explode_frames[EX_FRAME_NR];
+SDL_Surface *explode_frames[EX_FRAME_NR];
 
 int take_explosive(int x, int y, int type);
 
@@ -28,12 +28,14 @@ void explode_init()
     {
         explodes[i].tick_left = EX_TICK_UNUSED;
     }
-    for (i = 1; i <= EX_FRAME_NR; i++)
+    IMG_Init(IMG_INIT_PNG);
+    for (i = 0; i < EX_FRAME_NR; i++)
     {
         char mname[255];
         sprintf(mname, EX_MODEL_NAME, i);
-        explode_frames[i - 1] = get_model(mname);
+        explode_frames[i] = IMG_Load(mname);
     }
+    IMG_Quit();
 }
 
 int explosive_at(int x, int y)
@@ -70,9 +72,19 @@ void blit_explode(SDL_Surface *target)
         Explode *curr_explode = &(explodes[i]);
         if(curr_explode->tick_left > EX_TICK_UNUSED){
             curr_explode->tick_left -= 1;
-            int current_frame_nr = rand() % EX_FRAME_NR;
-            fast_blit(explode_frames[current_frame_nr], target, 
-            curr_explode->x, curr_explode->y);
+            int amount = 1;
+            if (curr_explode->type == EX_TYPE_FIRE)
+            {
+                amount = EX_FIREAMOUNT;
+            }
+            int s;
+            for (s = 0; s < amount; s++)
+            {
+                int current_frame_nr = rand() % EX_FRAME_NR;
+                center_blit(explode_frames[current_frame_nr], target, 
+                curr_explode->x - EX_R / 2 + (rand() % EX_R), 
+                curr_explode->y - EX_R / 2 + (rand() % EX_R));
+            }
         }
     }
 }
@@ -85,12 +97,12 @@ int hit_test(int x, int y)
         if ((explodes[i].tick_left > EX_TICK_UNUSED) && (explodes[i].type == EX_TYPE_FIRE))
         {
             int xdiff, ydiff, dis;
-            xdiff = ABS(explodes[i].x - x);
-            ydiff = ABS(explodes[i].y - y);
+            xdiff = explodes[i].x - x;
+            ydiff = explodes[i].y - y;
             dis = sqrt(xdiff * xdiff + ydiff * ydiff);
             if(dis < EX_R)
             {
-                harm += (EX_R - dis);
+                harm += 120;
             }
         }
     }

@@ -2,7 +2,7 @@
 #ifndef _EXPLODE_H_
 #define _EXPLODE_H_
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 typedef struct
 {

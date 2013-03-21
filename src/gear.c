@@ -87,7 +87,7 @@ int get_target_angle(GearObject *gear)
     double hor = abs(gear->y_vector);
     int angle = (int)(atan(hor / ver) / M_PI * 180);
     if(gear->x_vector < 0){
-        angle = -angle;
+        angle = 180-angle;
     }
     if(gear->y_vector > 0){
         return -angle;

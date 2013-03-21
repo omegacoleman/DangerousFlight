@@ -2,7 +2,7 @@
 #ifndef _ENVIRONMENT_H_
 #define _ENVIRONMENT_H_
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 typedef struct
 {

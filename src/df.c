@@ -22,12 +22,13 @@
 
 
 #include <stdio.h>
-#include <SDL/SDL.h>
+#include "SDL.h"
 #include "sprite.h"
 #include "player.h"
 #include "environment.h"
 #include "missle.h"
 #include "explode.h"
+#include "ui.h"
 
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
@@ -46,6 +47,7 @@ int main(int argc, char **argv)
     SDL_SetEventFilter(process_events);
     SDL_Surface *screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
     load_models();
+    ui_init();
     explode_init();
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
@@ -60,11 +62,17 @@ int main(int argc, char **argv)
         blit_missle(missle, screen);
         blit_player(player, screen);
         blit_explode(screen);
+        draw_lifebar(screen, player->health, 0, 0);
         kb_control(player, SDL_GetKeyState(NULL));
         step_player(player);
         if (step_missle(missle) != 1)
         {
-            Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+            if (rand() % 2)
+            {
+                Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+            } else {
+                Missle *missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
+            }
             lock_gear(missle, &(player->gear));
         }
         env_move_on();

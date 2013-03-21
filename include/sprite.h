@@ -2,7 +2,7 @@
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 typedef struct
 {
@@ -18,6 +18,7 @@ SuperBlitable* get_model(char *name);
 void super_blit(SuperBlitable *superb, SDL_Surface *dest, 
 int x, int y, int angle);
 void fast_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y);
+void center_blit(SDL_Surface *tob, SDL_Surface *dest, int x, int y);
 
 #endif
 

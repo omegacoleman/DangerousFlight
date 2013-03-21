@@ -3,27 +3,17 @@
 #include "bottom.h"
 #include "environment.h"
 #include "SDL_rotozoom.h"
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include "SDL.h"
+#include "SDL_image.h"
 #include <string.h>
 
-#define MODEL_NR 13
+#define MODEL_NR 3
 
 char model_basenames[MODEL_NR][255] = 
 {
     "ca_w", 
     "ca_r", 
     "missle", 
-    "explode_1", 
-    "explode_2", 
-    "explode_3", 
-    "explode_4", 
-    "explode_5", 
-    "explode_6", 
-    "explode_7", 
-    "explode_8", 
-    "explode_9", 
-    "explode_10", 
 };
 
 #define EXT_ORIG ".jpg"
@@ -116,5 +106,17 @@ void fast_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y)
     thisrect.w = superb->curr->w;
     thisrect.h = superb->curr->h;
     SDL_BlitSurface(superb->curr, NULL, dest, &thisrect);
+}
+
+// Well, in fact, this should be in bottom.c, but I wanna
+// do all the bliting in this file, so..
+void center_blit(SDL_Surface *tob, SDL_Surface *dest, int x, int y)
+{
+    SDL_Rect thisrect;
+    thisrect.x = x - (tob->w / 2);
+    thisrect.y = y - (tob->h / 2);
+    thisrect.w = tob->w;
+    thisrect.h = tob->h;
+    SDL_BlitSurface(tob, NULL, dest, &thisrect);
 }
 
