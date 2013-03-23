@@ -6,6 +6,7 @@
 void z_cut(SDL_Surface *src, SDL_Surface *s_z, Uint8 tocut, Uint8 blur)
 {
     Uint8 max, blur_lowest, blur_length;
+    int x, y;
     max = (((int)tocut + (int)blur) < 255) ? (tocut + blur) : 255;
     blur_lowest = (tocut > blur) ? (tocut - blur) : 0;
     blur_length = max - blur_lowest;
@@ -14,7 +15,6 @@ void z_cut(SDL_Surface *src, SDL_Surface *s_z, Uint8 tocut, Uint8 blur)
             return;
         }
     }
-    int x, y;
     for (x = 0; x < src->w; x++) {
         for (y = 0; y < src->h; y++) {
             Uint8 z;
@@ -24,8 +24,9 @@ void z_cut(SDL_Surface *src, SDL_Surface *s_z, Uint8 tocut, Uint8 blur)
                     set_pixel_alpha(src, x, y, 0);
                 } else {
                     Uint8 garbage, alph;
+					int blured;
                     SDL_GetRGBA(get_pixel(src, x, y), src->format, &garbage, &garbage, &garbage, &alph);
-                    int blured = alph * (blur_length - z + blur_lowest) / blur_length;
+                    blured = alph * (blur_length - z + blur_lowest) / blur_length;
                     set_pixel_alpha(src, x, y, (Uint8)blured);
                 }
             }
@@ -38,12 +39,12 @@ void z_cut(SDL_Surface *src, SDL_Surface *s_z, Uint8 tocut, Uint8 blur)
 
 void set_alpha_channel(SDL_Surface *src, SDL_Surface *s_alpha)
 {
+    int x, y;
     if ( SDL_MUSTLOCK(src) ) {
         if ( SDL_LockSurface(src) < 0 ) {
             return;
         }
     }
-    int x, y;
     for (x = 0; x < src->w; x++) {
         for (y = 0; y < src->h; y++) {
             char alph;

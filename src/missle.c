@@ -41,20 +41,23 @@ void lock_point(Missle *missle, int x, int y)
 
 Missle *gen_missle(int x, int y)
 {
-    Missle *curr = malloc(sizeof(Missle));
+	int x_push, y_push;
+    Missle *curr = (Missle *)malloc(sizeof(Missle));
     curr->target.type = MT_NONE;
     curr->explode_tick_left = \
     EXPLODE_TICK_MIN + (rand() % EXPLODE_TICK_GAP);
     init_gear(&(curr->gear), x, y, MISSLE_WEIGHT);
-    int x_push = MISSLE_PUSH_X_MIN + (rand() % MISSLE_PUSH_X_GAP);
-    int y_push = MISSLE_PUSH_Y_MIN + (rand() % MISSLE_PUSH_Y_GAP);
+    x_push = MISSLE_PUSH_X_MIN + (rand() % MISSLE_PUSH_X_GAP);
+    y_push = MISSLE_PUSH_Y_MIN + (rand() % MISSLE_PUSH_Y_GAP);
     give_push(&(curr->gear), x_push, y_push);
+	return curr;
 }
 
 int step_missle(Missle *missle)
 {
-    missle->explode_tick_left -= 1;
     int explode = 0;
+	int x_offs, y_offs, distance;
+    missle->explode_tick_left -= 1;
     if (missle->target.type != MT_NONE)
     {
         int target_x, target_y;
@@ -68,9 +71,9 @@ int step_missle(Missle *missle)
             target_x = missle->target.gear->x;
             target_y = missle->target.gear->y;
         }
-        int x_offs = target_x - missle->gear.x;
-        int y_offs = target_y - missle->gear.y;
-        int distance = sqrt(x_offs * x_offs + y_offs * y_offs);
+        x_offs = target_x - missle->gear.x;
+        y_offs = target_y - missle->gear.y;
+        distance = (int)sqrt(x_offs * x_offs + y_offs * y_offs);
         if (distance < MISSLE_ACTIVE_R)
         {
             explode = 1;
@@ -85,9 +88,10 @@ int step_missle(Missle *missle)
         fire_at(missle->gear.x, missle->gear.y);
         free(missle);
         return 0;
-    }
-    step_gear(&(missle->gear));
-    return 1;
+    } else {
+        step_gear(&(missle->gear));
+        return 1;
+	}
 }
 
 void blit_missle(Missle *missle, SDL_Surface *dest)

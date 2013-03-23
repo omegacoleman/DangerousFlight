@@ -1,10 +1,12 @@
 
 #include "sprite.h"
 #include "bottom.h"
+#include "spec.h"
 #include "environment.h"
 #include "SDL_rotozoom.h"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "alphachannel.h"
 #include <string.h>
 
 #define MODEL_NR 3
@@ -27,8 +29,8 @@ SuperBlitable models[MODEL_NR];
 
 void load_models()
 {
-    IMG_Init(IMG_INIT_JPG);
     int i;
+    IMG_Init(IMG_INIT_JPG);
     for (i = 0; i < MODEL_NR; i++)
     {
         char filename_orig[255];
@@ -66,18 +68,20 @@ SuperBlitable* get_model(char *name)
             return &(models[i]);
         }
     }
+	return NULL;
 }
 
 void super_blit(SuperBlitable *superb, SDL_Surface *dest, 
 int x, int y, int angle)
 {
+	SDL_Surface *s_n_spec;
     Uint32 curr_spec = get_spec();
     Uint8 sr, sg, sb;
+    SDL_Rect thisrect;
     SDL_GetRGB(curr_spec, get_spec_fmt(), &sr, &sg, &sb);
     SDL_FreeSurface(superb->curr);
     superb->curr = SDL_DisplayFormatAlpha(superb->orig);
-    SDL_Surface *s_n_spec = 
-    SDL_ConvertSurface(superb->spec, superb->spec->format, 0);
+    s_n_spec = SDL_ConvertSurface(superb->spec, superb->spec->format, 0);
     change_style(s_n_spec, SDL_MapRGB(s_n_spec->format, sr, sg, sb));
     change_spec(superb->curr, s_n_spec);
     set_alpha_channel(superb->curr, superb->alph);
@@ -86,7 +90,6 @@ int x, int y, int angle)
         z_cut(superb->curr, superb->z, get_fog(), DEF_BLUR);
     }
     superb->curr = rotozoomSurface(superb->curr, angle, 1, 0);
-    SDL_Rect thisrect;
     thisrect.x = x - (superb->curr->w / 2);
     thisrect.y = y - (superb->curr->h / 2);
     thisrect.w = superb->curr->w;
@@ -97,10 +100,10 @@ int x, int y, int angle)
 
 void fast_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y)
 {
+    SDL_Rect thisrect;
     SDL_FreeSurface(superb->curr);
     superb->curr = SDL_DisplayFormatAlpha(superb->orig);
     set_alpha_channel(superb->curr, superb->alph);
-    SDL_Rect thisrect;
     thisrect.x = x - (superb->curr->w / 2);
     thisrect.y = y - (superb->curr->h / 2);
     thisrect.w = superb->curr->w;

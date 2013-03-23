@@ -19,7 +19,7 @@
 Explode explodes[EX_NR_MAX];
 SDL_Surface *explode_frames[EX_FRAME_NR];
 
-int take_explosive(int x, int y, int type);
+void take_explosive(int x, int y, int type);
 
 void explode_init()
 {
@@ -38,17 +38,17 @@ void explode_init()
     IMG_Quit();
 }
 
-int explosive_at(int x, int y)
+void explosive_at(int x, int y)
 {
     take_explosive(x, y, EX_TYPE_ANIM);
 }
 
-int fire_at(int x, int y)
+void fire_at(int x, int y)
 {
     take_explosive(x, y, EX_TYPE_FIRE);
 }
 
-int take_explosive(int x, int y, int type)
+void take_explosive(int x, int y, int type)
 {
     int i = 0;
     for (i = 0; i < EX_NR_MAX; i++)
@@ -69,15 +69,16 @@ void blit_explode(SDL_Surface *target)
     int i;
     for (i = 0; i < EX_NR_MAX; i++)
     {
+        int s;
         Explode *curr_explode = &(explodes[i]);
+        int amount;
         if(curr_explode->tick_left > EX_TICK_UNUSED){
             curr_explode->tick_left -= 1;
-            int amount = 1;
+            amount = 1;
             if (curr_explode->type == EX_TYPE_FIRE)
             {
                 amount = EX_FIREAMOUNT;
             }
-            int s;
             for (s = 0; s < amount; s++)
             {
                 int current_frame_nr = rand() % EX_FRAME_NR;
@@ -99,7 +100,7 @@ int hit_test(int x, int y)
             int xdiff, ydiff, dis;
             xdiff = explodes[i].x - x;
             ydiff = explodes[i].y - y;
-            dis = sqrt(xdiff * xdiff + ydiff * ydiff);
+            dis = (int) sqrt(xdiff * xdiff + ydiff * ydiff);
             if(dis < EX_R)
             {
                 harm += 120;

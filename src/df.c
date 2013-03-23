@@ -22,6 +22,7 @@
 
 
 #include <stdio.h>
+#include <time.h>
 #include "SDL.h"
 #include "sprite.h"
 #include "player.h"
@@ -41,21 +42,24 @@ GearObject gear;
 
 int main(int argc, char **argv)
 {
+	SDL_Surface *screen;
+	Player *player;
+	Missle *missle;
+    unsigned long frame = 0;
+    int win = -1;
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     srand((unsigned)time(NULL));
     atexit(SDL_Quit);
     SDL_SetEventFilter(process_events);
-    SDL_Surface *screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
+    screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
     load_models();
     ui_init();
     explode_init();
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
     missle_init();
-    Player *player = create_player(get_model("ca_r"), 200, 200, 3, 1000);
-    Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
-    unsigned long frame = 0;
-    int win = -1;
+    player = create_player(get_model("ca_r"), 200, 200, 3, 1000);
+    missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
     while (! quited) {
         SDL_PollEvent(NULL);
         blit_bg(screen);
@@ -69,9 +73,9 @@ int main(int argc, char **argv)
         {
             if (rand() % 2)
             {
-                Missle *missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+			    missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
             } else {
-                Missle *missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
+			    missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
             }
             lock_gear(missle, &(player->gear));
         }

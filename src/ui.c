@@ -16,13 +16,13 @@ void ui_init()
 void draw_lifebar(SDL_Surface *dest, int life, int x, int y)
 {
     int cross_nr = life / 150;
+    SDL_Rect thisrect;
+    int i;
     if(life == 0)
     {
         return;
     }
     cross_nr += 1;
-    int i;
-    SDL_Rect thisrect;
     thisrect.x = x;
     thisrect.y = y;
     thisrect.w = s_lifecross->w;

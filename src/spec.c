@@ -5,12 +5,12 @@
 
 void change_spec(SDL_Surface *src, SDL_Surface *new_spec)
 {
+    int x, y;
     if ( SDL_MUSTLOCK(src) ) {
         if ( SDL_LockSurface(src) < 0 ) {
             return;
         }
     }
-    int x, y;
     for (x = 0; x < src->w; x++) {
         for (y = 0; y < src->h; y++) {
             int nr, ng, nb, a;
@@ -38,13 +38,13 @@ void change_spec(SDL_Surface *src, SDL_Surface *new_spec)
 void change_style(SDL_Surface *src, Uint32 style)
 {
     Uint8 rm, gm, bm;
+    int x, y;
     SDL_GetRGB(style, src->format, &rm, &gm, &bm);
     if ( SDL_MUSTLOCK(src) ) {
         if ( SDL_LockSurface(src) < 0 ) {
             return;
         }
     }
-    int x, y;
     for (x = 0; x < src->w; x++) {
         for (y = 0; y < src->h; y++) {
             Uint32 color;

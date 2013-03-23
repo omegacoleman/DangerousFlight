@@ -14,9 +14,9 @@ int curr_fog_pix;
 
 void load_environment(char *name)
 {
-    IMG_Init(IMG_INIT_JPG);
     char fullname_bg[255] = RES_DIR;
     char fullname_opt[255] = RES_DIR;
+    IMG_Init(IMG_INIT_JPG);
     strcat(fullname_bg, name);
     strcat(fullname_opt, name);
     strcat(fullname_bg, EXT_BG);
@@ -57,6 +57,8 @@ Uint32 get_spec()
 
 Uint8 get_fog()
 {
+    Uint32 fog_pix;
+    Uint8 fog, garbage;
     int real_fog_x;
     if(curr_fog_pix < curr_environment.optlines->w)
     {
@@ -65,10 +67,8 @@ Uint8 get_fog()
         real_fog_x = 
         (2 * curr_environment.optlines->w) - curr_fog_pix - 1;
     }
-    Uint32 fog_pix;
     fog_pix = get_pixel(curr_environment.optlines, 
     real_fog_x, OPT_FOG_LN);
-    Uint8 fog, garbage;
     SDL_GetRGB(fog_pix, curr_environment.optlines->format, 
     &fog, &garbage, &garbage);
     return fog;

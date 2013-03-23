@@ -2,6 +2,7 @@
 #include "gear.h"
 #include "sprite.h"
 #include "player.h"
+#include "explode.h"
 #include "SDL.h"
 
 #define GO_LEFT -3

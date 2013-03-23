@@ -6,6 +6,8 @@
 
 int top_wall, bottom_wall, left_wall, right_wall;
 
+int get_target_angle(GearObject *gear);
+
 void init_gear(GearObject *gear, int x, int y, int weight)
 {
     gear->x = x;
@@ -27,8 +29,8 @@ void step_gear(GearObject *gear)
     gear->y_vector += gear->weight;
     gear->x += gear->x_vector;
     gear->y += gear->y_vector;
-    gear->x_vector *= AIR_RESIS;
-    gear->y_vector *= AIR_RESIS;
+    gear->x_vector = (int) (gear->x_vector * AIR_RESIS);
+    gear->y_vector = (int) (gear->y_vector * AIR_RESIS);
     if(gear->x < left_wall)
     {
         gear->x = left_wall;
@@ -73,6 +75,7 @@ void set_walls(int top, int bottom, int left, int right)
 
 int get_target_angle(GearObject *gear)
 {
+	double ver, hor, angle;
     if(gear->y_vector == 0){
         return 0;
     }
@@ -83,16 +86,16 @@ int get_target_angle(GearObject *gear)
             return 90;
         }
     }
-    double ver = abs(gear->x_vector);
-    double hor = abs(gear->y_vector);
-    int angle = (int)(atan(hor / ver) / M_PI * 180);
+    ver = abs(gear->x_vector);
+    hor = abs(gear->y_vector);
+    angle = (int)(atan(hor / ver) / 3.14159 * 180);
     if(gear->x_vector < 0){
-        angle = 180-angle;
+        angle = 180-(int)angle;
     }
     if(gear->y_vector > 0){
-        return -angle;
+        return -(int)angle;
     } else {
-        return angle;
+        return (int)angle;
     }
 }
 

@@ -18,6 +18,7 @@ typedef struct
 Player *create_player(SuperBlitable *model, int x, int y, int weight, int max_health);
 void step_player(Player *player);
 void blit_player(Player *player, SDL_Surface *target);
+void kb_control(Player *player, Uint8 *keys);
 
 #endif
 

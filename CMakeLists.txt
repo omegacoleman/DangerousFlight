@@ -1,12 +1,11 @@
 
-
-include(CMakeGenericSystem)
-
-find_package(SDL)
-find_package(SDL_image)
-
 cmake_minimum_required(VERSION 2.8)
 project(DangerousFlight)
+
+set(CMAKE_FIND_LIBRARY_PREFIXES "")
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+include(FindSDL)
+include(FindSDL_image)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 link_libraries(${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} m)
