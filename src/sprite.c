@@ -1,4 +1,6 @@
 
+#include "global.h"
+
 #include "sprite.h"
 #include "bottom.h"
 #include "spec.h"
@@ -54,6 +56,7 @@ void load_models()
         models[i].spec = IMG_Load(filename_spec);
         models[i].z = IMG_Load(filename_z);
         models[i].curr = SDL_DisplayFormatAlpha(models[i].orig);
+        models[i].curr_flag = SB_CF_FIRST;
     }
     IMG_Quit();
 }
@@ -68,47 +71,43 @@ SuperBlitable* get_model(char *name)
             return &(models[i]);
         }
     }
-	return NULL;
+    return NULL;
 }
 
 void super_blit(SuperBlitable *superb, SDL_Surface *dest, 
 int x, int y, int angle)
 {
-	SDL_Surface *s_n_spec;
+    SDL_Surface *s_final;
     Uint32 curr_spec = get_spec();
-    Uint8 sr, sg, sb;
-    SDL_Rect thisrect;
-    SDL_GetRGB(curr_spec, get_spec_fmt(), &sr, &sg, &sb);
-    SDL_FreeSurface(superb->curr);
-    superb->curr = SDL_DisplayFormatAlpha(superb->orig);
-    s_n_spec = SDL_ConvertSurface(superb->spec, superb->spec->format, 0);
-    change_style(s_n_spec, SDL_MapRGB(s_n_spec->format, sr, sg, sb));
-    change_spec(superb->curr, s_n_spec);
-    set_alpha_channel(superb->curr, superb->alph);
-    if(get_fog() < 0xff)
-    {
-        z_cut(superb->curr, superb->z, get_fog(), DEF_BLUR);
+    if ((superb->last_spec != curr_spec) || \
+    (superb->curr_flag != SB_CF_NORMAL)) {
+        SDL_Surface *s_n_spec;
+        Uint8 sr, sg, sb;
+        SDL_GetRGB(curr_spec, get_spec_fmt(), &sr, &sg, &sb);
+        SDL_FreeSurface(superb->curr);
+        superb->curr = SDL_DisplayFormatAlpha(superb->orig);
+        s_n_spec = 
+        SDL_ConvertSurface(superb->spec, superb->spec->format, 0);
+        change_style(s_n_spec, SDL_MapRGB(s_n_spec->format, sr, sg, sb));
+        change_spec(superb->curr, s_n_spec);
+        set_alpha_channel(superb->curr, superb->alph);
+        SDL_FreeSurface(s_n_spec);
+        superb->curr_flag = SB_CF_NORMAL;
     }
-    superb->curr = rotozoomSurface(superb->curr, angle, 1, 0);
-    thisrect.x = x - (superb->curr->w / 2);
-    thisrect.y = y - (superb->curr->h / 2);
-    thisrect.w = superb->curr->w;
-    thisrect.h = superb->curr->h;
-    SDL_BlitSurface(superb->curr, NULL, dest, &thisrect);
-    SDL_FreeSurface(s_n_spec);
+    s_final = rotozoomSurface(superb->curr, angle, 1, 0);
+    center_blit(s_final, dest, x, y);
+    SDL_FreeSurface(s_final);
 }
 
 void fast_blit(SuperBlitable *superb, SDL_Surface *dest, int x, int y)
 {
-    SDL_Rect thisrect;
-    SDL_FreeSurface(superb->curr);
-    superb->curr = SDL_DisplayFormatAlpha(superb->orig);
-    set_alpha_channel(superb->curr, superb->alph);
-    thisrect.x = x - (superb->curr->w / 2);
-    thisrect.y = y - (superb->curr->h / 2);
-    thisrect.w = superb->curr->w;
-    thisrect.h = superb->curr->h;
-    SDL_BlitSurface(superb->curr, NULL, dest, &thisrect);
+    if ((superb->curr_flag != SB_CF_FAST)) {
+        SDL_FreeSurface(superb->curr);
+        superb->curr = SDL_DisplayFormatAlpha(superb->orig);
+        set_alpha_channel(superb->curr, superb->alph);
+        superb->curr_flag = SB_CF_FAST;
+    }
+    center_blit(superb->curr, dest, x, y);
 }
 
 // Well, in fact, this should be in bottom.c, but I wanna

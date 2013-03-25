@@ -1,10 +1,12 @@
 
+#include "global.h"
+
+
 #include <stdlib.h>
 #include "SDL_image.h"
 #include "explode.h"
 #include "math.h"
 #include "sprite.h"
-
 
 #define EX_TICK_FULL 10
 #define EX_TICK_UNUSED -1
@@ -95,7 +97,8 @@ int hit_test(int x, int y)
     int i, harm = 0;
     for (i = 0; i < EX_NR_MAX; i++)
     {
-        if ((explodes[i].tick_left > EX_TICK_UNUSED) && (explodes[i].type == EX_TYPE_FIRE))
+        if ((explodes[i].tick_left > EX_TICK_UNUSED) && 
+        (explodes[i].type == EX_TYPE_FIRE))
         {
             int xdiff, ydiff, dis;
             xdiff = explodes[i].x - x;

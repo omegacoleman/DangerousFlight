@@ -4,6 +4,10 @@
 
 #include "SDL.h"
 
+#define SB_CF_NORMAL 3
+#define SB_CF_FAST 2
+#define SB_CF_FIRST 0
+
 typedef struct
 {
     SDL_Surface *orig;
@@ -11,6 +15,8 @@ typedef struct
     SDL_Surface *alph;
     SDL_Surface *z;
     SDL_Surface *curr;
+    int curr_flag;
+    Uint32 last_spec;
 } SuperBlitable;
 
 void load_models();

@@ -1,16 +1,17 @@
 
+#include "global.h"
+
 #include "missle.h"
 #include "explode.h"
 #include "math.h"
-
 
 #define EXPLODE_TICK_MAX 30
 #define EXPLODE_TICK_MIN 20
 #define EXPLODE_TICK_GAP (EXPLODE_TICK_MAX - EXPLODE_TICK_MIN)
 
-#define MISSLE_PUSH_X_MAX -30
+#define MISSLE_PUSH_X_MAX 70
 #define MISSLE_PUSH_X_MIN -70
-#define MISSLE_PUSH_Y_MAX 7
+#define MISSLE_PUSH_Y_MAX 17
 #define MISSLE_PUSH_Y_MIN -7
 #define MISSLE_WEIGHT 2
 
@@ -41,7 +42,7 @@ void lock_point(Missle *missle, int x, int y)
 
 Missle *gen_missle(int x, int y)
 {
-	int x_push, y_push;
+    int x_push, y_push;
     Missle *curr = (Missle *)malloc(sizeof(Missle));
     curr->target.type = MT_NONE;
     curr->explode_tick_left = \
@@ -50,13 +51,13 @@ Missle *gen_missle(int x, int y)
     x_push = MISSLE_PUSH_X_MIN + (rand() % MISSLE_PUSH_X_GAP);
     y_push = MISSLE_PUSH_Y_MIN + (rand() % MISSLE_PUSH_Y_GAP);
     give_push(&(curr->gear), x_push, y_push);
-	return curr;
+    return curr;
 }
 
 int step_missle(Missle *missle)
 {
     int explode = 0;
-	int x_offs, y_offs, distance;
+    int x_offs, y_offs, distance;
     missle->explode_tick_left -= 1;
     if (missle->target.type != MT_NONE)
     {
@@ -91,11 +92,12 @@ int step_missle(Missle *missle)
     } else {
         step_gear(&(missle->gear));
         return 1;
-	}
+    }
 }
 
 void blit_missle(Missle *missle, SDL_Surface *dest)
 {
-    super_blit(missle_model, dest, missle->gear.x, missle->gear.y, missle->gear.angle);
+    super_blit(missle_model, dest, 
+    missle->gear.x, missle->gear.y, missle->gear.angle);
 }
 

@@ -1,4 +1,7 @@
 
+#include "global.h"
+
+
 #include "gear.h"
 #include "sprite.h"
 #include "player.h"
@@ -11,7 +14,8 @@
 
 #define PARRY_TIME 5
 
-Player *create_player(SuperBlitable *model, int x, int y, int weight, int max_health)
+Player *create_player(SuperBlitable *model, int x, int y,
+ int weight, int max_health)
 {
     Player *player = malloc(sizeof(Player));
     player->model = model;

@@ -20,6 +20,9 @@
  * 
  */
 
+#include "global.h"
+
+
 
 #include <stdio.h>
 #include <time.h>
@@ -33,34 +36,41 @@
 
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
+#define FPS_MAX 40
+#define FPS_MAX_DELAY (1000 / FPS_MAX)
 
 int process_events(const SDL_Event *event);
 int quited = 0;
 GearObject gear;
 
-
-
 int main(int argc, char **argv)
 {
-	SDL_Surface *screen;
-	Player *player;
-	Missle *missle;
+    SDL_Surface *screen;
+    Player *player;
+    Missle *missle;
+    int tick_at_start, tick_gone;
     unsigned long frame = 0;
     int win = -1;
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+    
     srand((unsigned)time(NULL));
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     atexit(SDL_Quit);
     SDL_SetEventFilter(process_events);
-    screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 32, 0);
+    screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 
+    32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    
     load_models();
     ui_init();
     explode_init();
     set_walls(0, VIEWPORT_HEIGHT, 0, VIEWPORT_WIDTH);
     load_environment("env_sea");
     missle_init();
+    
     player = create_player(get_model("ca_r"), 200, 200, 3, 1000);
-    missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+    missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
+    
     while (! quited) {
+        tick_at_start = SDL_GetTicks();
         SDL_PollEvent(NULL);
         blit_bg(screen);
         blit_missle(missle, screen);
@@ -73,26 +83,31 @@ int main(int argc, char **argv)
         {
             if (rand() % 2)
             {
-			    missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+                missle = 
+                gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
             } else {
-			    missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
+                missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
             }
             lock_gear(missle, &(player->gear));
         }
         env_move_on();
         SDL_Flip(screen);
-        SDL_Delay(20);
+        tick_gone = SDL_GetTicks() - tick_at_start;
+        if (FPS_MAX_DELAY > tick_gone)
+        {
+            SDL_Delay(FPS_MAX_DELAY - tick_gone);
+        }
         frame++;
     }
     if (win == 0) {
     }
-	return 0;
+    return 0;
 }
 
 int process_events(const SDL_Event *event)
 {
     switch (event->type) {
-        case SDL_MOUSEBUTTONDOWN:
+        // case SDL_MOUSEBUTTONDOWN:
         case SDL_QUIT:
         quited = 1;
         break;

@@ -1,4 +1,7 @@
 
+#include "global.h"
+
+
 #include "alphachannel.h"
 #include "SDL.h"
 #include "bottom.h"
@@ -24,7 +27,7 @@ void z_cut(SDL_Surface *src, SDL_Surface *s_z, Uint8 tocut, Uint8 blur)
                     set_pixel_alpha(src, x, y, 0);
                 } else {
                     Uint8 garbage, alph;
-					int blured;
+                    int blured;
                     SDL_GetRGBA(get_pixel(src, x, y), src->format, &garbage, &garbage, &garbage, &alph);
                     blured = alph * (blur_length - z + blur_lowest) / blur_length;
                     set_pixel_alpha(src, x, y, (Uint8)blured);

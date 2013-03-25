@@ -1,4 +1,7 @@
 
+#include "global.h"
+
+
 #include <stdlib.h>
 #include "environment.h"
 #include "bottom.h"

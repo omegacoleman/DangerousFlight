@@ -1,8 +1,12 @@
 
+
+#include "global.h"
+
 #include "bottom.h"
 #include "SDL.h"
 
-void set_pixel_alpha(SDL_Surface *surface, int x, int y, Uint8 alpha)
+void set_pixel_alpha(SDL_Surface *surface, 
+int x, int y, Uint8 alpha)
 {
     Uint32 color;
     color = get_pixel(surface, x, y);

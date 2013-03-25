@@ -1,4 +1,6 @@
 
+#include "global.h"
+
 #include "gear.h"
 #include <math.h>
 
@@ -75,7 +77,7 @@ void set_walls(int top, int bottom, int left, int right)
 
 int get_target_angle(GearObject *gear)
 {
-	double ver, hor, angle;
+    double ver, hor, angle;
     if(gear->y_vector == 0){
         return 0;
     }

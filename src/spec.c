@@ -1,4 +1,7 @@
 
+#include "global.h"
+
+
 #include "SDL.h"
 #include "spec.h"
 #include "bottom.h"
