@@ -25,6 +25,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include "SDL.h"
 #include "sprite.h"
@@ -53,11 +54,14 @@ int main(int argc, char **argv)
     int died = 0, close_tick_left;
     
     srand((unsigned)time(NULL));
+    putenv ("SDL_VIDEO_WINDOW_POS");
+    putenv ("SDL_VIDEO_CENTERED=1");
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     atexit(SDL_Quit);
     SDL_SetEventFilter(process_events);
     screen = SDL_SetVideoMode(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 
     32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    SDL_WM_SetCaption("Dangerous Flight", "DF");
     
     
     SIGN_RESTART:
