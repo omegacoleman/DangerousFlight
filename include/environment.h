@@ -3,6 +3,7 @@
 #define _ENVIRONMENT_H_
 
 #include "SDL.h"
+#include "sprite.h"
 
 typedef struct
 {
@@ -19,6 +20,8 @@ void env_move_on();
 Uint32 get_spec();
 Uint8 get_fog();
 SDL_PixelFormat *get_spec_fmt();
+
+extern SuperBlitable *curr_envobj;
 
 #endif
 

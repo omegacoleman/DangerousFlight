@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "SDL_image.h"
 #include "explode.h"
+#include "environment.h"
 #include "math.h"
 #include "sprite.h"
 
@@ -61,6 +62,9 @@ void take_explosive(int x, int y, int type)
             explodes[i].x = x;
             explodes[i].y = y;
             explodes[i].type = type;
+            create_bullet_hole(curr_envobj->curr, curr_envobj->z, x, y);
+            create_bullet_hole(curr_envobj->orig, curr_envobj->z, x, y);
+            // curr_envobj->curr_flag = SB_CF_FIRST;
             return;
         }
     }

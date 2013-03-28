@@ -2,8 +2,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(DangerousFlight)
 
-set(CMAKE_FIND_LIBRARY_PREFIXES "")
-set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
 include(FindSDL)
 include(FindSDL_image)
 

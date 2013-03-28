@@ -8,8 +8,8 @@
 #include "explode.h"
 #include "SDL.h"
 
-#define GO_LEFT -3
-#define GO_RIGHT 3
+#define GO_LEFT -4
+#define GO_RIGHT 4
 #define GO_UP -5
 
 #define PARRY_TIME 5
@@ -47,14 +47,14 @@ void step_player(Player *player)
             }
         }
         step_gear(&(player->gear));
-        if (player->health > player->max_health)
-        {
-            player->health = player->max_health;
-        }
-        if (player->health < 0)
-        {
-            player->health = 0;
-        }
+    }
+    if (player->health > player->max_health)
+    {
+        player->health = player->max_health;
+    }
+    if (player->health < 0)
+    {
+        player->health = 0;
     }
 }
 

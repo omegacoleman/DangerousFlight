@@ -10,7 +10,7 @@
 #define EXPLODE_TICK_GAP (EXPLODE_TICK_MAX - EXPLODE_TICK_MIN)
 
 #define MISSLE_PUSH_X_MAX 70
-#define MISSLE_PUSH_X_MIN -70
+#define MISSLE_PUSH_X_MIN 30
 #define MISSLE_PUSH_Y_MAX 17
 #define MISSLE_PUSH_Y_MIN -7
 #define MISSLE_WEIGHT 2
@@ -50,6 +50,10 @@ Missle *gen_missle(int x, int y)
     init_gear(&(curr->gear), x, y, MISSLE_WEIGHT);
     x_push = MISSLE_PUSH_X_MIN + (rand() % MISSLE_PUSH_X_GAP);
     y_push = MISSLE_PUSH_Y_MIN + (rand() % MISSLE_PUSH_Y_GAP);
+    if (rand() % 2)
+    {
+        x_push = -x_push;
+    }
     give_push(&(curr->gear), x_push, y_push);
     return curr;
 }

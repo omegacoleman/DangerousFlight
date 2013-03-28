@@ -6,6 +6,8 @@
 
 #define ROTATE_SPEED_MAX 3
 
+#define SPEED_RATE 0.6
+
 int top_wall, bottom_wall, left_wall, right_wall;
 
 int get_target_angle(GearObject *gear);
@@ -29,8 +31,8 @@ void give_push(GearObject *gear, int x_push, int y_push)
 void step_gear(GearObject *gear)
 {
     gear->y_vector += gear->weight;
-    gear->x += gear->x_vector;
-    gear->y += gear->y_vector;
+    gear->x += gear->x_vector * SPEED_RATE;
+    gear->y += gear->y_vector * SPEED_RATE;
     gear->x_vector = (int) (gear->x_vector * AIR_RESIS);
     gear->y_vector = (int) (gear->y_vector * AIR_RESIS);
     if(gear->x < left_wall)
