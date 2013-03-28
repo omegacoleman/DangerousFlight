@@ -61,9 +61,9 @@ void gameover(SDL_Surface *screen)
 
 void display_locked(SDL_Surface *screen, SDL_Surface *lock, SDLKey key)
 {
+    SDL_Surface *dest;
     key_lookin_for = key;
     locked = 1;
-    SDL_Surface *dest;
     dest = SDL_DisplayFormat(screen);
     center_blit(lock, screen, screen->w / 2, screen->h / 2);
     SDL_Flip(screen);
