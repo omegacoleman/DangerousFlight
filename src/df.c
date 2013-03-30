@@ -35,19 +35,25 @@
 #include "explode.h"
 #include "ui.h"
 
+#define PLAYER_WEIGHT 3
+#define PLAYER_HEALTH_MAX 5000
 #define VIEWPORT_WIDTH 800
 #define VIEWPORT_HEIGHT 600
 #define FPS_MAX 40
 #define FPS_MAX_DELAY (1000 / FPS_MAX)
 
+#define PLAYER_STARTUP_POS_X 300
+#define PLAYER_STARTUP_POS_Y 300
+
 int process_events(const SDL_Event *event);
 int quited = 0;
-GearObject gear;
+Player *player;
+
+Missle *side_gen_missle();
 
 int main(int argc, char **argv)
 {
     SDL_Surface *screen;
-    Player *player;
     Missle *missle;
     int tick_at_start, tick_gone;
     unsigned long frame = 0;
@@ -63,7 +69,6 @@ int main(int argc, char **argv)
     32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetCaption("Dangerous Flight", "DF");
     
-    
     SIGN_RESTART:
     
     load_models();
@@ -73,12 +78,15 @@ int main(int argc, char **argv)
     load_environment("sea");
     missle_init();
     
-    
     frame = 0;
     died = 0;
     quited = 0;
-    player = create_player(get_model("ca_r"), 200, 200, 3, 5000);
-    missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
+    
+    player = create_player(get_model("ca_r"), 
+    PLAYER_STARTUP_POS_X, PLAYER_STARTUP_POS_Y, 
+    PLAYER_WEIGHT, PLAYER_HEALTH_MAX);
+    
+    missle = side_gen_missle();
     
     while (! quited) {
         tick_at_start = SDL_GetTicks();
@@ -92,14 +100,7 @@ int main(int argc, char **argv)
         step_player(player);
         if (step_missle(missle) != 1)
         {
-            if (rand() % 2)
-            {
-                missle = 
-                gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
-            } else {
-                missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
-            }
-            lock_gear(missle, &(player->gear));
+            missle = side_gen_missle();
         }
         env_move_on();
         SDL_Flip(screen);
@@ -138,6 +139,19 @@ int main(int argc, char **argv)
         }
     }
     return 0;
+}
+
+Missle *side_gen_missle()
+{
+    Missle *missle;
+    if (rand() % 2)
+    {
+        missle = gen_missle(VIEWPORT_WIDTH, rand() % VIEWPORT_HEIGHT);
+    } else {
+        missle = gen_missle(0, rand() % VIEWPORT_HEIGHT);
+    }
+    lock_gear(missle, &(player->gear));
+    return missle;
 }
 
 int process_events(const SDL_Event *event)

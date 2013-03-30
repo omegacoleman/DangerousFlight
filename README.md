@@ -22,16 +22,19 @@ This game requires cmake, SDL and SDL_image to build.
 
 Follow these steps to build on linux:
 
-> mkdir build
-> cd build
-> cmake ..
-...
-> make
-...
+```
+mkdir build
+cd build
+cmake ..
+make
+```
 
 And to run it:
-> cd ..
-> ./build/DF
+
+```
+cd ..
+./build/DF
+```
 
 Or on windows, you can use VC++ to open DF.vcxproj, and build.
 
