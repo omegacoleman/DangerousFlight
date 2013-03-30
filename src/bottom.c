@@ -34,14 +34,14 @@ SDL_Surface *dest, SDL_Surface *z, int tx, int ty)
             SDL_GetRGB(get_pixel(z, x, y), z->format, &zz,  &zz,  &zz);
             SDL_GetRGBA(
             get_pixel(dest, x, y), dest->format, &r, &g, &b, &alph);
-            dis = sqrt((tx-x)*(tx-x) + (ty-y)*(ty-y));
+            dis = (int)sqrt((tx-x)*(tx-x) + (ty-y)*(ty-y));
             if (dis < 50)
             {
                 int toburn;
                 #define noneg(a) ((a)>0?(a):0)
-                toburn = 
-                noneg(HOLE_R - dis - zz * Z_WEIGHT)
-                 * 255 / HOLE_R * HOLE_ALPG;
+                toburn = (int)
+                (noneg((HOLE_R - dis - zz * Z_WEIGHT))
+                 * 255 / HOLE_R * HOLE_ALPG);
                 r = (Uint8)noneg((int)r - toburn);
                 g = (Uint8)noneg((int)g - toburn);
                 b = (Uint8)noneg((int)b - toburn);
