@@ -6,6 +6,7 @@
 #include "SDL_image.h"
 #include "explode.h"
 #include "environment.h"
+#include "bottom.h"
 #include "math.h"
 #include "sprite.h"
 
