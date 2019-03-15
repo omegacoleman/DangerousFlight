@@ -1,13 +1,15 @@
 
-cmake_minimum_required(VERSION 2.8)
 project(DangerousFlight)
+cmake_minimum_required(VERSION 2.8)
 
-include(FindSDL)
-include(FindSDL_image)
+find_package(SDL REQUIRED)
+find_package(SDL_image REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
-link_libraries(${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} m)
 include_directories(${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR})
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
 add_subdirectory(src)
+
 
