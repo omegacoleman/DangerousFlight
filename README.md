@@ -13,7 +13,7 @@ INCOMPLETE YET
 #0. Intro
 
 The Dangerous Flight is a game about airplanes fighting. You can drive
-planes and let them shoot missles and enemies coming to you(in the later
+planes and let them shoot missles on enemies who are coming towards you(in the later
 versions). 
 
 #1. Building
@@ -29,18 +29,19 @@ cmake ..
 make
 ```
 
-And to run it:
+Steps to run :
 
 ```
 cd ..
 ./build/DF
 ```
 
-Or on windows, you can use VC++ to open DF.vcxproj, and build.
+On windows , you can use VC++ to open DF.vcxproj , and build.
 
-Notice that you must run the game in the dir which "res" in.
+---------Notice----------
+You must run the game in the dir which "res" in.
 
-Enjoy!
+Enjoy!!!!!
 
 #TODO
 Add more sections.
